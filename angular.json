@@ -2,13 +2,139 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "",
-  "projects": {},
+  "projects": {
+    "master": {
+      "root": "apps/master",
+      "sourceRoot": "apps/master/src",
+      "projectType": "application",
+      "prefix": "master",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/master",
+            "main": "apps/master/src/main.ts",
+            "tsConfig": "apps/master/tsconfig.app.json",
+            "assets": [
+              "apps/master/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/master/src/environments/environment.ts",
+                  "with": "apps/master/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "master:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/master/tsconfig.app.json",
+              "apps/master/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/master/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/master/jest.config.js",
+            "tsConfig": "apps/master/tsconfig.spec.json"
+          }
+        }
+      }
+    },
+    "minion": {
+      "root": "apps/minion",
+      "sourceRoot": "apps/minion/src",
+      "projectType": "application",
+      "prefix": "minion",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/minion",
+            "main": "apps/minion/src/main.ts",
+            "tsConfig": "apps/minion/tsconfig.app.json",
+            "assets": [
+              "apps/minion/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/minion/src/environments/environment.ts",
+                  "with": "apps/minion/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "minion:build"
+          },
+          "configurations": {
+            "development": {
+              "inspect": false,
+              "port": 3080
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/minion/tsconfig.app.json",
+              "apps/minion/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/minion/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/minion/jest.config.js",
+            "tsConfig": "apps/minion/tsconfig.spec.json"
+          }
+        }
+      }
+    }
+  },
   "cli": {
     "warnings": {
       "typescriptMismatch": false,
       "versionMismatch": false
     },
-    "defaultCollection": "@nrwl/workspace"
+    "defaultCollection": "@nrwl/nest"
   },
-  "schematics": {}
+  "schematics": {},
+  "defaultProject": "master"
 }

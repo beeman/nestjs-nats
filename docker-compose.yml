@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  master:
+    container_name: nestjs-nats-master
+    image: beeman/nestjs-nats-master:latest
+    command: yarn start:master:prod
+    environment:
+      NATS_URL: nats://nestjs-nats:4222
+    ports:
+      - "3333:3333"
+
+  minion:
+    container_name: nestjs-nats-minion
+    image: beeman/nestjs-nats-master:latest
+    command: yarn start:minion:prod
+    environment:
+      NATS_URL: nats://nestjs-nats:4222
+
+  nats:
+    container_name: nestjs-nats
+    image: nats
+    command: -c nats-server.conf -DV
+    ports:
+      - "8222:8222"
+      - "4222:4222"
+      - "6222:6222"
