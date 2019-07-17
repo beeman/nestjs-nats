@@ -24,4 +24,11 @@ export class MinionAppController {
     return this.minionAppService.reverse(message);
   }
 
+
+  @MessagePattern({ cmd: 'event' })
+  event(data: any): any {
+    console.log('MinionAppController: event', data);
+    return this.minionAppService.event(data);
+  }
+
 }

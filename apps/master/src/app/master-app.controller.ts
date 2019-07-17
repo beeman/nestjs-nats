@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req } from '@nestjs/common';
 import { tap } from 'rxjs/operators';
 
 import { MasterAppService } from './master-app.service';
@@ -26,5 +26,17 @@ export class MasterAppController {
     return this.masterAppService
       .reverse(message)
       .pipe(tap(result => console.log('MasterAppController: reverse result', result)));
+  }
+
+  @Post('event')
+  event(@Req() req, @Body('data') data) {
+    const requestData = {
+      ip: req.ip,
+      remoteAddress: req.connection.remoteAddress,
+    }
+    console.log(data)
+    return this.masterAppService
+      .event({ ...data, request: requestData })
+      .pipe(tap(result => console.log('MasterAppController: event result', result)));
   }
 }

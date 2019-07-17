@@ -16,4 +16,11 @@ export class MinionAppService {
     console.log('MinionAppService: reverse', message);
     return message.split('').reverse().join('')
   }
+
+  public event(data: any) {
+    const result = JSON.stringify(data, null, 2);
+    console.log('MinionAppService: event', result);
+
+    return result
+  }
 }
